@@ -1,15 +1,11 @@
 package board;
 
-import play.Player;
+import game.Player;
 
 public class City extends Building {
 
-    public City(Player player, int row, int col) {
-        super(player, row, col);
-    }
-
-    @Override
-    public void collect() {
-
+    public City(Player owner, int row, int col) {
+        super(owner, row, col);
+        amtCollect = Building.CITY;
     }
 }

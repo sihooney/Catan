@@ -1,4 +1,4 @@
-package play;
+package board;
 
 import java.util.*;
 
@@ -9,7 +9,7 @@ public class Deck {
     public Deck() {
         cards = new ArrayList<>(25);
         for (int i = 0; i < 14; i++) {
-            cards.add(new DevCard("Knight", DevCard.KNGIHT));
+            cards.add(new DevCard("Knight", DevCard.KNIGHT));
         }
         cards.add(new DevCard("Road building", DevCard.ROAD_BUILDING));
         cards.add(new DevCard("Road building", DevCard.ROAD_BUILDING));
@@ -29,9 +29,5 @@ public class Deck {
         } else {
             return null;
         }
-    }
-
-    public boolean isEmpty() {
-        return cards.isEmpty();
     }
 }

@@ -1,15 +1,11 @@
 package board;
 
-import play.Player;
+import game.Player;
 
 public class Settlement extends Building {
 
-    public Settlement(Player player, int row, int col) {
-        super(player, row, col);
-    }
-
-    @Override
-    public void collect() {
-
+    public Settlement(Player owner, int row, int col) {
+        super(owner, row, col);
+        amtCollect = Building.SETTLEMENT;
     }
 }

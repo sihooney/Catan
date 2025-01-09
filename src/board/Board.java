@@ -75,25 +75,4 @@ public class Board {
             addEdge(vertices[points[4].row][points[4].col], vertices[points[5].row][points[5].col]);
         }
     }
-
-    public static void main(String[] args) {
-        Board b = new Board();
-        for (int i = 0; i < b.tiles.length; i++) {
-            for (int j = 0; j < b.tiles[0].length; j++) {
-                if (b.tiles[i][j] != null) {
-                    System.out.println(b.tiles[i][j]);
-                    for (Point p : b.tiles[i][j].getVertices()) {
-                        System.out.println(p);
-                    }
-                }
-            }
-        }
-        for (Map.Entry<Vertex, HashSet<Edge>> entry : b.adj.entrySet()) {
-            System.out.print(entry.getKey() + " ");
-            for (Edge e : entry.getValue()) {
-                System.out.print(e.u + " " + e.v);
-            }
-            System.out.println();
-        }
-    }
 }

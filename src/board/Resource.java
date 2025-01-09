@@ -2,12 +2,11 @@ package board;
 
 public class Resource {
 
-    private final int DESERT = 0;
-    private final int BRICK = 1;
-    private final int WOOL = 2;
-    private final int LUMBER = 3;
-    private final int GRAIN = 4;
-    private final int ORE = 5;
-    private final String[] NAMES = {"DESERT, BRICK, WOOL, LUMBER, GRAIN, ORE"};
+    public static final int BRICK = 0;
+    public static final int WOOL = 1;
+    public static final int LUMBER = 2;
+    public static final int GRAIN = 3;
+    public static final int ORE = 4;
+    public static final String[] NAMES = {"BRICK, WOOL, LUMBER, GRAIN, ORE"};
 
 }

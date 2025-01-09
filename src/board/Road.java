@@ -1,6 +1,6 @@
 package board;
 
-import play.Player;
+import game.Player;
 
 public class Road extends Edge {
 
