@@ -8,7 +8,7 @@ public abstract class Building extends Vertex {
 
     public Building(Player player, int row, int col) {
         super(row, col);
-        empty = false;
+        occupied = false;
         owner = player;
     }
 

@@ -2,11 +2,13 @@ package board;
 
 public class Edge {
 
-    private final Vertex v1;
-    private final Vertex v2;
+    protected final Vertex u;
+    protected final Vertex v;
+    protected boolean occupied;
 
-    public Edge(Vertex v1, Vertex v2) {
-        this.v1 = v1;
-        this.v2 = v2;
+    public Edge(Vertex u, Vertex v) {
+        this.u = u;
+        this.v = v;
+        occupied = false;
     }
 }

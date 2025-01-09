@@ -2,10 +2,10 @@ package board;
 
 public class Vertex extends Point {
 
-    protected boolean empty;
+    protected boolean occupied;
 
     public Vertex(int row, int col) {
         super(row, col);
-        empty = true;
+        occupied = false;
     }
 }

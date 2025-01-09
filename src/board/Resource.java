@@ -9,4 +9,5 @@ public class Resource {
     private final int GRAIN = 4;
     private final int ORE = 5;
     private final String[] NAMES = {"DESERT, BRICK, WOOL, LUMBER, GRAIN, ORE"};
+
 }

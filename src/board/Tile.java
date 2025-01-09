@@ -20,9 +20,9 @@ public class Tile extends Point {
         this.robber = robber;
     }
 
-    public void setPosition(Point point) {
-        this.row = point.row;
-        this.col = point.col;
+    public void setPosition(Point p) {
+        this.row = p.row;
+        this.col = p.col;
     }
 
     public boolean isRobber() {
@@ -48,8 +48,8 @@ public class Tile extends Point {
         robber = hasRobber;
     }
 
-    public Point[] getVertices() {
-        return new Point[]{new Point(row, col), new Point(row + 1, col - 1), new Point(row + 1, col + 1),
-                new Point(row + 2, col - 1), new Point(row + 2, col + 1), new Point(row + 3, col)};
+    public Vertex[] getVertices() {
+        return new Vertex[]{new Vertex(row, col), new Vertex(row + 1, col - 1), new Vertex(row + 1, col + 1),
+                new Vertex(row + 2, col - 1), new Vertex(row + 2, col + 1), new Vertex(row + 3, col)};
     }
 }
