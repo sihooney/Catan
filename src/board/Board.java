@@ -1,5 +1,7 @@
 package board;
 
+import constants.Resource;
+
 import java.util.*;
 
 public class Board {
@@ -14,40 +16,44 @@ public class Board {
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
     private final Tile[][] tiles;
     private final Vertex[][] vertices;
-    private final HashMap<Vertex, HashSet<Edge>> adj;
+    private final HashMap<Vertex, HashSet<Edge>> graph;
     private Point robberLoc;
 
     public Board() {
         tiles = new Tile[12][11];
         vertices = new Vertex[12][11];
-        adj = new HashMap<>();
+        graph = new HashMap<>();
         initialize();
     }
 
-    private void addEdge(Vertex u, Vertex v) {
-        if (!adj.containsKey(u)) {
-            adj.put(u, new HashSet<>());
+    private boolean addEdge(Vertex u, Vertex v) {
+        if (!graph.containsKey(u)) {
+            graph.put(u, new HashSet<>());
         }
-        if (!adj.containsKey(v)) {
-            adj.put(v, new HashSet<>());
+        if (!graph.containsKey(v)) {
+            graph.put(v, new HashSet<>());
         }
-        adj.get(u).add(new Edge(u, v));
-        adj.get(v).add(new Edge(v, u));
+        if (graph.get(u).contains(new Edge(u, v)) || graph.get(v).contains(new Edge(v, u))) {
+            return false;
+        }
+        graph.get(u).add(new Edge(u, v));
+        graph.get(v).add(new Edge(v, u));
+        return true;
     }
 
     private void initialize() {
         ArrayList<Tile> allTiles = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            allTiles.add(new Tile("LUMBER"));
-            allTiles.add(new Tile("BRICK"));
-            allTiles.add(new Tile("GRAIN"));
-            allTiles.add(new Tile("WOOL"));
-            allTiles.add(new Tile("ORE"));
+            allTiles.add(new Tile(Resource.LUMBER));
+            allTiles.add(new Tile(Resource.LUMBER));
+            allTiles.add(new Tile(Resource.GRAIN));
+            allTiles.add(new Tile(Resource.WOOL));
+            allTiles.add(new Tile(Resource.ORE));
         }
-        allTiles.add(new Tile("LUMBER"));
-        allTiles.add(new Tile("GRAIN"));
-        allTiles.add(new Tile("WOOL"));
-        allTiles.add(new Tile("DESERT", true));
+        allTiles.add(new Tile(Resource.LUMBER));
+        allTiles.add(new Tile(Resource.GRAIN));
+        allTiles.add(new Tile(Resource.WOOL));
+        allTiles.add(new Tile(Resource.DESERT, true));
         Collections.shuffle(allTiles);
         ArrayList<Integer> tokens = new ArrayList<>(Arrays.asList(TOKENS));
         Collections.shuffle(tokens);

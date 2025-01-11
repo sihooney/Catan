@@ -11,4 +11,12 @@ public class Edge {
         this.v = v;
         occupied = false;
     }
+
+    public Vertex getU() {
+        return u;
+    }
+
+    public Vertex getV() {
+        return v;
+    }
 }

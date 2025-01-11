@@ -4,16 +4,16 @@ public class Tile extends Point {
 
     private int num;
     private boolean robber;
-    private final String type;
+    private final int type;
 
-    public Tile(String type) {
+    public Tile(int type) {
         super();
         num = -1;
         this.type = type;
         robber = false;
     }
 
-    public Tile(String type, boolean robber) {
+    public Tile(int type, boolean robber) {
         super();
         num = -1;
         this.type = type;

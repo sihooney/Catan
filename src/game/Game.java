@@ -1,7 +1,6 @@
 package game;
 
-import board.Board;
-import board.Deck;
+import board.*;
 
 public class Game {
 
@@ -30,6 +29,10 @@ public class Game {
         curPlayer = players[1];
     }
 
+    private boolean placeRoad(Edge e) {
+        return false;
+    }
+
     private boolean placeSettlement() {
         return false;
     }
@@ -38,7 +41,7 @@ public class Game {
         return false;
     }
 
-    private boolean placeRoad() {
+    private boolean buyDevCard() {
         return false;
     }
 }

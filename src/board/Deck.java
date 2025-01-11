@@ -4,10 +4,10 @@ import java.util.*;
 
 public class Deck {
 
-    private final ArrayList<DevCard> cards;
+    private final LinkedList<DevCard> cards;
 
     public Deck() {
-        cards = new ArrayList<>(25);
+        cards = new LinkedList<>();
         for (int i = 0; i < 14; i++) {
             cards.add(new DevCard("Knight", DevCard.KNIGHT));
         }
@@ -23,11 +23,11 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
+    public DevCard peek() {
+        return cards.peekLast();
+    }
+
     public DevCard draw() {
-        if (!cards.isEmpty()) {
-            return cards.remove(cards.size() - 1);
-        } else {
-            return null;
-        }
+        return cards.pollLast();
     }
 }
