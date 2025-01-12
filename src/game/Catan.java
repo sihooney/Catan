@@ -1,6 +1,6 @@
 package game;
 
-public class Play {
+public class Catan {
     public static void main(String[] args) {
 
     }

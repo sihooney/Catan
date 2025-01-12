@@ -10,7 +10,6 @@ import java.util.*;
 
 public class Player {
 
-    private final String name;
     private final Color color;
     public final int[] resources;
     private final HashMap<DevCard, Integer> devCards;
@@ -25,8 +24,7 @@ public class Player {
     private boolean longestRoad;
     private boolean largestArmy;
 
-    public Player(String name, Color color) {
-        this.name = name;
+    public Player(Color color) {
         this.color = color;
         resources = new int[Resource.RESOURCES.length];
         devCards = new HashMap<>();
