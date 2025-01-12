@@ -2,6 +2,7 @@ package game;
 
 import board.*;
 import constants.Items;
+import constants.Ports;
 import constants.Resource;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ public class Player {
     private final HashMap<DevCard, Integer> devCards;
     private final ArrayList<Building> buildings;
     private final HashMap<Vertex, HashSet<Edge>> graph;
+    public final boolean[] ports;
     private int settlements;
     private int cities;
     private int roads;
@@ -26,10 +28,11 @@ public class Player {
     public Player(String name, Color color) {
         this.name = name;
         this.color = color;
-        resources = new int[Resource.NAMES.length];
+        resources = new int[Resource.RESOURCES.length];
         devCards = new HashMap<>();
         buildings = new ArrayList<>();
         graph = new HashMap<>();
+        ports = new boolean[Ports.PORTS.length];
         settlements = 0;
         cities = 0;
         roads = 0;
@@ -40,7 +43,7 @@ public class Player {
     }
 
     private boolean[] canAfford() {
-        boolean[] items = new boolean[Items.NAMES.length];
+        boolean[] items = new boolean[Items.ITEMS.length];
         Arrays.fill(items, true);
         if (resources[Resource.BRICK] < 1 || resources[Resource.LUMBER] < 1) {
             items[Items.ROAD] = false;

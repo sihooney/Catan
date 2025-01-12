@@ -33,11 +33,11 @@ public class Game {
         return false;
     }
 
-    private boolean placeSettlement() {
+    private boolean placeSettlement(Building b) {
         return false;
     }
 
-    private boolean placeCity() {
+    private boolean placeCity(Building b) {
         return false;
     }
 
