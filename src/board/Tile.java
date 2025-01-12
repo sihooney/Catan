@@ -29,17 +29,6 @@ public class Tile extends Point {
         return robber;
     }
 
-    @Override
-    public String toString() {
-        return "Tile{" +
-                "num=" + num +
-                ", robber=" + robber +
-                ", type='" + type + '\'' +
-                ", row=" + row +
-                ", col=" + col +
-                '}';
-    }
-
     public void setNum(int num) {
         this.num = num;
     }

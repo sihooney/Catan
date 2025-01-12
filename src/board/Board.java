@@ -26,7 +26,7 @@ public class Board {
         initialize();
     }
 
-    private boolean addEdge(Vertex u, Vertex v) {
+    public boolean addEdge(Vertex u, Vertex v) {
         if (!graph.containsKey(u)) {
             graph.put(u, new HashSet<>());
         }

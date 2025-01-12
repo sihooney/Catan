@@ -19,4 +19,8 @@ public class Edge {
     public Vertex getV() {
         return v;
     }
+
+    public boolean isOccupied() {
+        return occupied;
+    }
 }

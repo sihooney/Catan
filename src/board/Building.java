@@ -2,7 +2,7 @@ package board;
 
 import game.Player;
 
-public abstract class Building extends Vertex {
+public class Building extends Vertex {
 
     protected static int SETTLEMENT = 1;
     protected static int CITY = 2;

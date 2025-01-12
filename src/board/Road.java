@@ -4,7 +4,7 @@ import game.Player;
 
 public class Road extends Edge {
 
-    private Player owner;
+    private final Player owner;
 
     public Road(Player owner, Vertex u, Vertex v) {
         super(u, v);
