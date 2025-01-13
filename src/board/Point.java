@@ -17,6 +17,14 @@ public class Point {
         this.col = col;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

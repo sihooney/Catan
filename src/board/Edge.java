@@ -1,15 +1,15 @@
 package board;
 
+import java.util.Objects;
+
 public class Edge {
 
     protected final Vertex u;
     protected final Vertex v;
-    protected boolean occupied;
 
     public Edge(Vertex u, Vertex v) {
         this.u = u;
         this.v = v;
-        occupied = false;
     }
 
     public Vertex getU() {
@@ -20,7 +20,16 @@ public class Edge {
         return v;
     }
 
-    public boolean isOccupied() {
-        return occupied;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Edge edge = (Edge) o;
+        return Objects.equals(u, edge.u) && Objects.equals(v, edge.v);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(u, v);
     }
 }

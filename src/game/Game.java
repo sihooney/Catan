@@ -24,24 +24,45 @@ public class Game {
         return (int) (Math.random() * 6) + 1 + (int) (Math.random() * 6) + 1;
     }
 
-    private void nextTurn() {
+    public void nextTurn() {
         curIndex = (curIndex + 1) % N;
         curPlayer = players[1];
     }
 
-    private boolean placeRoad(Edge e) {
+    public boolean placeRoad(Edge e, boolean secondRoad) {
+        if (board.hasRoad(e)) {
+            return false;
+        }
+        if (curPlayer.buyRoad(e, secondRoad)) {
+            board.placeRoad(e, curPlayer);
+        }
         return false;
     }
 
-    private boolean placeSettlement(Building b) {
+    public boolean initialSettlement(Building b) {
         return false;
     }
 
-    private boolean placeCity(Building b) {
+    public boolean placeSecondRoad(Edge e) {
         return false;
     }
 
-    private boolean buyDevCard() {
+    public boolean placeSettlement(Building b) {
+        return false;
+    }
+
+    public boolean placeCity(Building b) {
+        return false;
+    }
+
+    public boolean buyDevCard() {
+        if (deck.peek() == null) {
+            return false;
+        }
+        if (curPlayer.buyDevCard(deck.peek())) {
+            deck.draw();
+            return true;
+        }
         return false;
     }
 }

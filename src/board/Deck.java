@@ -27,7 +27,7 @@ public class Deck {
         return cards.peekLast();
     }
 
-    public DevCard draw() {
-        return cards.pollLast();
+    public void draw() {
+        cards.pollLast();
     }
 }

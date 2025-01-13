@@ -1,6 +1,7 @@
 package board;
 
 import constants.Resource;
+import game.Player;
 
 import java.util.*;
 
@@ -14,9 +15,10 @@ public class Board {
             new Point(8, 3), new Point(8, 5), new Point(8, 7),
     };
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+    private static final int[][] BLOCKED_DIR = {}; // Precompute Blocked off vertices by a building
     private final Tile[][] tiles;
     private final Vertex[][] vertices;
-    private final HashMap<Vertex, HashSet<Edge>> graph;
+    private final HashMap<Vertex, HashMap<Edge, Player>> graph;
     private Point robberLoc;
 
     public Board() {
@@ -26,18 +28,43 @@ public class Board {
         initialize();
     }
 
-    public boolean addEdge(Vertex u, Vertex v) {
-        if (!graph.containsKey(u)) {
-            graph.put(u, new HashSet<>());
+    public boolean hasEdge(Edge e) {
+        return graph.containsKey(e.getU()) && graph.get(e.getU()).containsKey(e) &&
+                graph.containsKey(e.getV()) && graph.get(e.getV()).containsKey(new Edge(e.getV(), e.getU()));
+    }
+
+    public boolean hasRoad(Edge e) {
+        Edge reverse = new Edge(e.getV(), e.getU());
+        if (hasEdge(e) && hasEdge(reverse)) {
+            return graph.get(e.getU()).get(e) == null && graph.get(e.getV()).get(reverse) == null;
         }
-        if (!graph.containsKey(v)) {
-            graph.put(v, new HashSet<>());
-        }
-        if (graph.get(u).contains(new Edge(u, v)) || graph.get(v).contains(new Edge(v, u))) {
+        return false;
+    }
+
+    public void placeRoad(Edge e, Player p) {
+        graph.get(e.getU()).put(e, p);
+        graph.get(e.getV()).put(new Edge(e.getV(), e.getU()), p);
+    }
+
+    public boolean canBuildOnVertex(Vertex v) {
+        if (vertices[v.getRow()][v.getCol()].occupied) {
             return false;
         }
-        graph.get(u).add(new Edge(u, v));
-        graph.get(v).add(new Edge(v, u));
+        return true;
+    }
+
+    public boolean addEdge(Vertex u, Vertex v) {
+        if (!graph.containsKey(u)) {
+            graph.put(u, new HashMap<>());
+        }
+        if (!graph.containsKey(v)) {
+            graph.put(v, new HashMap<>());
+        }
+        if (graph.get(u).containsKey(new Edge(u, v)) || graph.get(v).containsKey(new Edge(v, u))) {
+            return false;
+        }
+        graph.get(u).put(new Edge(u, v), null);
+        graph.get(v).put(new Edge(v, u), null);
         return true;
     }
 

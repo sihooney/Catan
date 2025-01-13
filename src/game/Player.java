@@ -40,6 +40,10 @@ public class Player {
         largestArmy = false;
     }
 
+    public Color getColor() {
+        return color;
+    }
+
     private boolean[] canAfford() {
         boolean[] items = new boolean[Items.ITEMS.length];
         Arrays.fill(items, true);
@@ -60,7 +64,7 @@ public class Player {
         return items;
     }
 
-    private boolean buyRoad(Edge e) {
+    public boolean buyRoad(Edge e, boolean secondRoad) {
         if (canAfford()[Items.ROAD]) {
             if (roads + 1 > 15) {
                 return false;
@@ -74,14 +78,33 @@ public class Player {
             if (!graph.containsKey(e.getV())) {
                 graph.put(e.getV(), new HashSet<>());
             }
-            graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
-            graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
-            return true;
+            if (hasBuilding(e.getU()) || hasBuilding(e.getV())) {
+                graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
+                graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
+                return true;
+            } else if (!secondRoad && (hasRoad(e.getU()) || hasRoad(e.getV()))){
+                graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
+                graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
+                return true;
+            }
         }
         return false;
     }
 
-    private boolean buySettlement(Building b) {
+    private boolean hasBuilding(Vertex v) {
+        for (Building b : buildings) {
+            if (b.getPoint() == v.getPoint()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasRoad(Vertex v) {
+        return graph.containsKey(v) && !graph.get(v).isEmpty();
+    }
+
+    public boolean buySettlement(Building b) {
         if (canAfford()[Items.SETTLEMENT]) {
             if (settlements + 1 > 5) {
                 return false;
@@ -98,7 +121,7 @@ public class Player {
         return false;
     }
 
-    private boolean buyCity(Building b) {
+    public boolean buyCity(Building b) {
         if (canAfford()[Items.CITY]) {
             if (cities + 1 > 4) {
                 return false;
@@ -113,7 +136,7 @@ public class Player {
         return false;
     }
 
-    private boolean buyDevCard(DevCard card) {
+    public boolean buyDevCard(DevCard card) {
         if (canAfford()[Items.DEVCARD]) {
             resources[Resource.WOOL]--;
             resources[Resource.GRAIN]--;
