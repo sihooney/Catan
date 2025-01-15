@@ -2,8 +2,11 @@ package game;
 
 import board.*;
 
+import java.awt.*;
+
 public class Game {
 
+    private final Color[] COLORS = {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
     private final int N;
     private final Player[] players;
     private final Board board;
@@ -11,9 +14,12 @@ public class Game {
     private int curIndex;
     private Player curPlayer;
 
-    public Game(Player[] players) {
-        N = players.length;
-        this.players = players;
+    public Game(int numPlayers) {
+        N = numPlayers;
+        this.players = new Player[N];
+        for (int i = 0; i < N; i++) {
+            players[i] = new Player(COLORS[i]);
+        }
         board = new Board();
         deck = new Deck();
         curIndex = 0;
