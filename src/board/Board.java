@@ -16,10 +16,10 @@ public class Board {
     };
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
     private static final int[][] BLOCKED_DIR = {}; // TODO Precompute Dir for Distance Rule
-    private final Tile[][] tiles;
-    private final Vertex[][] vertices;
-    private final HashMap<Vertex, HashMap<Edge, Player>> graph;
-    private Point robberLoc;
+    public final Tile[][] tiles;
+    public final Vertex[][] vertices;
+    public final HashMap<Vertex, HashMap<Edge, Player>> graph;
+    public Point robberLoc;
 
     public Board() {
         tiles = new Tile[12][11];

@@ -20,9 +20,17 @@ public class Tile extends Point {
         this.robber = robber;
     }
 
+    public int getType() {
+        return type;
+    }
+
     public void setPosition(Point p) {
         this.row = p.row;
         this.col = p.col;
+    }
+
+    public int getNum() {
+        return num;
     }
 
     public boolean isRobber() {

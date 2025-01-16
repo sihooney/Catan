@@ -8,11 +8,11 @@ public class Game {
 
     private final Color[] COLORS = {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
     private final int N;
-    private final Player[] players;
-    private final Board board;
-    private final Deck deck;
-    private int curIndex;
-    private Player curPlayer;
+    public final Player[] players;
+    public final Board board;
+    public final Deck deck;
+    public int curIndex;
+    public Player curPlayer;
 
     public Game(int numPlayers) {
         N = numPlayers;
@@ -46,6 +46,10 @@ public class Game {
     }
 
     public boolean initialSettlement(Building b) {
+        return false;
+    }
+
+    public boolean initialRoad(Edge e) {
         return false;
     }
 
