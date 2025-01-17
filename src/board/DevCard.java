@@ -11,6 +11,7 @@ public class DevCard {
     public static final int YEAR_OF_PLENTY = 2;
     public static final int MONOPOLY = 3;
     public static final int VP = 4;
+    public static final String[] NAMES = {"KNIGHT", "ROAD BUILDING", "YEAR OF PLENTY", "MONOPOLY", "VP CARD"};
 
     public DevCard(String name, int type) {
         this.name = name;

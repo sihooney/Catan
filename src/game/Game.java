@@ -2,11 +2,10 @@ package game;
 
 import board.*;
 
-import java.awt.*;
+import static constants.Colors.COLORS;
 
 public class Game {
 
-    private final Color[] COLORS = {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
     private final int N;
     public final Player[] players;
     public final Board board;

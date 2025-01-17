@@ -15,7 +15,6 @@ public class Board {
             new Point(8, 3), new Point(8, 5), new Point(8, 7),
     };
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
-    private static final int[][] BLOCKED_DIR = {}; // TODO Precompute Dir for Distance Rule
     public final Tile[][] tiles;
     public final Vertex[][] vertices;
     public final HashMap<Vertex, HashMap<Edge, Player>> graph;
@@ -46,11 +45,17 @@ public class Board {
         graph.get(e.getV()).put(new Edge(e.getV(), e.getU()), p);
     }
 
-    public boolean canBuildOnVertex(Vertex v) {
+    public boolean hasBuilding(Vertex v, int distance) {
+        if (distance == 3) {
+            return true;
+        }
         if (vertices[v.getRow()][v.getCol()].occupied) {
             return false;
         }
-        return true;
+        for (Edge e : graph.get(v).keySet()) {
+            return hasBuilding(e.getV(), distance + 1);
+        }
+        return false;
     }
 
     public boolean addEdge(Vertex u, Vertex v) {

@@ -8,27 +8,20 @@ public class Catan {
     private final JFrame windowFrame;
     private JPanel menuPanel;
     private JPanel gamePanel;
-    private JPanel actionPanel;
+    private ActionPanel actionPanel;
     private BoardPanel boardPanel;
-    private JPanel infoPanel;
-
-    private JLabel gridReference;
+    private InfoPanel infoPanel;
 
     private Game game;
 
     public Catan() {
         windowFrame = new JFrame("Settlers of Catan");
         windowFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        windowFrame.setPreferredSize(new Dimension(1800, 1000));
-        loadImages();
+        windowFrame.setPreferredSize(new Dimension(1800, 1000));;
         menuSetup();
         windowFrame.setResizable(false);
         windowFrame.pack();
         windowFrame.setVisible(true); // Display frame
-    }
-
-    private void loadImages() {
-        gridReference = new JLabel(new ImageIcon("gui/resized_board.jpg"));
     }
 
     private void menuSetup() {
@@ -65,16 +58,9 @@ public class Catan {
         rightPanel.setPreferredSize(new Dimension(1200, 1000));
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBackground(Color.LIGHT_GRAY);
-        actionPanel = new JPanel();
-        actionPanel.setPreferredSize(new Dimension(600, 1000));
-        actionPanel.setBackground(Color.YELLOW);
-        gridReference.setAlignmentX(Component.CENTER_ALIGNMENT);
-        actionPanel.add(gridReference);
-        boardPanel = new BoardPanel(game.board); // TODO Board
-        infoPanel = new JPanel();
-        infoPanel.setPreferredSize(new Dimension(1200, 300));
-        infoPanel.setLayout(new BorderLayout());
-        infoPanel.setBackground(Color.LIGHT_GRAY);
+        actionPanel = new ActionPanel(game);
+        boardPanel = new BoardPanel(game.board);
+        infoPanel = new InfoPanel(game.players);
         rightPanel.add(boardPanel);
         rightPanel.add(infoPanel);
         gamePanel.add(actionPanel, BorderLayout.WEST);

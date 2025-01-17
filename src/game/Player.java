@@ -40,6 +40,23 @@ public class Player {
         largestArmy = false;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Resources: ");
+        for (int i = 0; i < resources.length; i++) {
+            sb.append(String.format("%s: %d, ", Resource.RESOURCES[i], resources[i]));
+        }
+        sb.append("\nDevelopment Cards: ");
+        for (Map.Entry<DevCard, Integer> entry : devCards.entrySet()) {
+            sb.append(String.format("%s: %d, ", DevCard.NAMES[entry.getKey().getType()], entry.getValue()));
+        }
+        sb.append("\nVictory Points: ");
+        sb.append(String.format("\n%s: %b, %s: %b, %s: %d", "Longest Road", longestRoad, "Largest Army", largestArmy,
+                "Victory Points", victoryPoints));
+        return sb.toString();
+    }
+
     public Color getColor() {
         return color;
     }
@@ -82,7 +99,7 @@ public class Player {
                 graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
                 graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
                 return true;
-            } else if (!secondRoad && (hasRoad(e.getU()) || hasRoad(e.getV()))){
+            } else if (!secondRoad && (hasRoad(e.getU()) || hasRoad(e.getV()))) {
                 graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
                 graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
                 return true;

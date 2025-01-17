@@ -12,7 +12,7 @@ import java.awt.Font;
 
 public class BoardPanel extends JPanel {
 
-    private final int RADIUS = 75;
+    private final double RADIUS = 75;
     private final int X_OFFSET = 300;
     private final int Y_OFFSET = 50;
     public Board board;
@@ -20,9 +20,15 @@ public class BoardPanel extends JPanel {
 
     public BoardPanel(Board board) {
         this.board = board;
-        this.setPreferredSize(new Dimension(1200, 700));
-        this.setBackground(Color.BLUE);
+        setPreferredSize(new Dimension(1200, 700));
+        setBackground(Color.BLUE);
         getTileCenters();
+    }
+
+    private Point calculateVertex(int r, int c) {
+        long x = Math.round(c * RADIUS * Math.sqrt(3.0) / 2);
+        long y = Math.round((r / 2 + r % 2) * RADIUS / 2 + (r / 2) * RADIUS);
+        return new Point((int) (X_OFFSET + x), (int) (Y_OFFSET + y));
     }
 
     private void getTileCenters() {
@@ -30,10 +36,8 @@ public class BoardPanel extends JPanel {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 11; j++) {
                 if (board.tiles[i][j] != null) {
-                    long x = Math.round(j * RADIUS * Math.sqrt(3.0) / 2);
-                    long y = Math.round((i / 2.0 + 1) * RADIUS + (i / 2.0) * RADIUS / 2);
-                    centers[i][j] = new Point((int) (X_OFFSET + x), (int) (Y_OFFSET + y));
-                    System.out.println(i + " " + j + " " + x + " " + y);
+                    Point p = calculateVertex(i, j);
+                    centers[i][j] = new Point(p.x, (int) (p.y + RADIUS));
                 }
             }
         }
