@@ -16,7 +16,7 @@ public class Building extends Vertex {
         this.amtCollect = type;
     }
 
-    protected void giveResource(int resource) {
+    public void giveResource(int resource) {
         owner.resources[resource] += amtCollect;
     }
 }

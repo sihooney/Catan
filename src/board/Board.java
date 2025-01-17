@@ -76,7 +76,7 @@ public class Board {
     private void initialize() {
         ArrayList<Tile> allTiles = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            allTiles.add(new Tile(Resource.LUMBER));
+            allTiles.add(new Tile(Resource.BRICK));
             allTiles.add(new Tile(Resource.LUMBER));
             allTiles.add(new Tile(Resource.GRAIN));
             allTiles.add(new Tile(Resource.WOOL));

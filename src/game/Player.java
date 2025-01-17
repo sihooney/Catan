@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Player {
 
-    private final Color color;
+    public final Color color;
     public final int[] resources;
     private final HashMap<DevCard, Integer> devCards;
     private final ArrayList<Building> buildings;
@@ -55,10 +55,6 @@ public class Player {
         sb.append(String.format("\n%s: %b, %s: %b, %s: %d", "Longest Road", longestRoad, "Largest Army", largestArmy,
                 "Victory Points", victoryPoints));
         return sb.toString();
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     private boolean[] canAfford() {

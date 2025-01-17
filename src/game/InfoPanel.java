@@ -51,4 +51,9 @@ public class InfoPanel extends JPanel {
         scrollPane.setPreferredSize(new Dimension(1000, 290));
         this.add(scrollPane);
     }
+
+    public void update() {
+        this.revalidate();
+        this.repaint();
+    }
 }

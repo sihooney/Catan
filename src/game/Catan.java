@@ -2,15 +2,26 @@ package game;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static constants.Colors.NAMES;
 
 public class Catan {
 
     private final JFrame windowFrame;
     private JPanel menuPanel;
     private JPanel gamePanel;
-    private ActionPanel actionPanel;
+    private JPanel actionPanel;
     private BoardPanel boardPanel;
     private InfoPanel infoPanel;
+
+    private Font actionFont;
+    private JLabel gridReference;
+    private JLabel playerLabel;
+    private JButton rollDice;
+    private boolean diceRolled;
+    private JButton nextTurn;
 
     private Game game;
 
@@ -21,7 +32,7 @@ public class Catan {
         menuSetup();
         windowFrame.setResizable(false);
         windowFrame.pack();
-        windowFrame.setVisible(true); // Display frame
+        windowFrame.setVisible(true);
     }
 
     private void menuSetup() {
@@ -58,7 +69,7 @@ public class Catan {
         rightPanel.setPreferredSize(new Dimension(1200, 1000));
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setBackground(Color.LIGHT_GRAY);
-        actionPanel = new ActionPanel(game);
+        setupActionPanel();
         boardPanel = new BoardPanel(game.board);
         infoPanel = new InfoPanel(game.players);
         rightPanel.add(boardPanel);
@@ -68,6 +79,59 @@ public class Catan {
         windowFrame.add(gamePanel);
         windowFrame.revalidate();
         windowFrame.repaint();
+    }
+
+    private void setupActionPanel() {
+        actionPanel = new JPanel();
+        diceRolled = false;
+        actionPanel.setPreferredSize(new Dimension(600, 1000));
+        actionPanel.setBackground(Color.YELLOW);
+        actionPanel.setLayout(new BoxLayout(actionPanel, BoxLayout.Y_AXIS));
+        actionPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionFont = new Font(null, Font.PLAIN, 20);
+        gridReference = new JLabel(new ImageIcon("gui/resized_board.jpg"));
+        gridReference.setAlignmentX(Component.CENTER_ALIGNMENT);
+        actionPanel.add(gridReference);
+        playerLabel = new JLabel("");
+        playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        playerLabel.setFont(actionFont);
+        rollDice = new JButton("Roll Dice");
+        rollDice.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rollDice.setFont(actionFont);
+        rollDice.addActionListener(e -> diceRoll());
+        nextTurn = new JButton("Next Turn");
+        nextTurn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nextTurn.setFont(actionFont);
+        nextTurn.addActionListener(e -> changePlayer());
+        actionPanel.add(playerLabel);
+        actionPanel.add(Box.createVerticalStrut(10));
+        actionPanel.add(rollDice);
+        actionPanel.add(Box.createVerticalStrut(10));
+        actionPanel.add(nextTurn);
+        actionPanel.add(Box.createVerticalStrut(10));
+        displayName();
+    }
+
+    private void displayName() {
+        playerLabel.setText("Player " + (game.curIndex + 1) + " " + NAMES[game.curIndex]);
+    }
+
+    private void diceRoll() {
+        if (diceRolled) {
+            JOptionPane.showMessageDialog(actionPanel, "You already rolled");
+        } else {
+            int roll = game.diceRoll();
+            JOptionPane.showMessageDialog(actionPanel, "Dice Roll: " + roll);
+            game.distributeResources(roll);
+            infoPanel.update();
+            diceRolled = true;
+        }
+    }
+
+    private void changePlayer() {
+        game.nextTurn();
+        diceRolled = false;
+        displayName();
     }
 
     public static void main(String[] args) {

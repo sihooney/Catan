@@ -29,6 +29,21 @@ public class Game {
         return (int) (Math.random() * 6) + 1 + (int) (Math.random() * 6) + 1;
     }
 
+    public void distributeResources(int roll) {
+        for (int i = 0; i < board.tiles.length; i++) {
+            for (int j = 0; j < board.tiles[0].length; j++) {
+                if (board.tiles[i][j] != null && board.tiles[i][j].getNum() == roll && !board.tiles[i][j].isRobber()) {
+                    for (Vertex v : board.tiles[i][j].getVertices()) {
+                        if (board.vertices[v.getRow()][v.getCol()].occupied) {
+                            Building b = (Building) v;
+                            b.giveResource(board.tiles[i][j].getType());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void nextTurn() {
         curIndex = (curIndex + 1) % N;
         curPlayer = players[1];
