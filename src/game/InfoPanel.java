@@ -35,8 +35,8 @@ public class InfoPanel extends JPanel {
         setLayout(new FlowLayout());
         setBackground(Color.LIGHT_GRAY);
         model = new DefaultTableModel();
-        model.addColumn("Color");
         model.addColumn("Player");
+        model.addColumn("Information");
         for (int i = 0; i < players.length; i++) {
             Object[] obj = new Object[2];
             obj[0] = NAMES[i];

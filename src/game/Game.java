@@ -25,6 +25,15 @@ public class Game {
         curPlayer = players[0];
     }
 
+    public int checkWin() {
+        for (int i = 0; i < N; i++) {
+            if (players[i].victoryPoints >= 10) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public int diceRoll() {
         return (int) (Math.random() * 6) + 1 + (int) (Math.random() * 6) + 1;
     }
@@ -63,15 +72,21 @@ public class Game {
         return false;
     }
 
-    public boolean initialRoad(Edge e) {
-        return false;
-    }
-
     public boolean placeSecondRoad(Edge e) {
         return false;
     }
 
     public boolean placeSettlement(Building b) {
+        if (board.vertices[b.getRow()][b.getCol()] == null) {
+            return false;
+        }
+        if (!board.hasBuilding(new Vertex(b.getRow(), b.getCol()), 0)) {
+            return false;
+        }
+        if (curPlayer.buySettlement(b)) {
+            board.placeBuilding(b);
+            return true;
+        }
         return false;
     }
 

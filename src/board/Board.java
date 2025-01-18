@@ -7,13 +7,7 @@ import java.util.*;
 
 public class Board {
 
-    private static final Point[] TILE_CORDS = {
-            new Point(0, 3), new Point(0, 5), new Point(0, 7),
-            new Point(2, 2), new Point(2, 4), new Point(2, 6), new Point(2, 8),
-            new Point(4, 1), new Point(4, 3), new Point(4, 5), new Point(4, 7), new Point(4, 9),
-            new Point(6, 2), new Point(6, 4), new Point(6, 6), new Point(6, 8),
-            new Point(8, 3), new Point(8, 5), new Point(8, 7),
-    };
+    private static final Point[] TILE_CORDS = {new Point(0, 3), new Point(0, 5), new Point(0, 7), new Point(2, 2), new Point(2, 4), new Point(2, 6), new Point(2, 8), new Point(4, 1), new Point(4, 3), new Point(4, 5), new Point(4, 7), new Point(4, 9), new Point(6, 2), new Point(6, 4), new Point(6, 6), new Point(6, 8), new Point(8, 3), new Point(8, 5), new Point(8, 7),};
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
     public final Tile[][] tiles;
     public final Vertex[][] vertices;
@@ -27,9 +21,24 @@ public class Board {
         initialize();
     }
 
+    public boolean hasBuilding(Vertex v, int distance) {
+        if (vertices[v.getRow()][v.getCol()].occupied) {
+            return false;
+        }
+        if (distance < 2) {
+            for (Edge e : graph.get(v).keySet()) {
+                hasBuilding(e.getV(), distance + 1);
+            }
+        }
+        return true;
+    }
+
+    public void placeBuilding(Building b) {
+        vertices[b.getRow()][b.getCol()] = b;
+    }
+
     public boolean hasEdge(Edge e) {
-        return graph.containsKey(e.getU()) && graph.get(e.getU()).containsKey(e) &&
-                graph.containsKey(e.getV()) && graph.get(e.getV()).containsKey(new Edge(e.getV(), e.getU()));
+        return graph.containsKey(e.getU()) && graph.get(e.getU()).containsKey(e) && graph.containsKey(e.getV()) && graph.get(e.getV()).containsKey(new Edge(e.getV(), e.getU()));
     }
 
     public boolean hasRoad(Edge e) {
@@ -43,19 +52,6 @@ public class Board {
     public void placeRoad(Edge e, Player p) {
         graph.get(e.getU()).put(e, p);
         graph.get(e.getV()).put(new Edge(e.getV(), e.getU()), p);
-    }
-
-    public boolean hasBuilding(Vertex v, int distance) {
-        if (distance == 3) {
-            return true;
-        }
-        if (vertices[v.getRow()][v.getCol()].occupied) {
-            return false;
-        }
-        for (Edge e : graph.get(v).keySet()) {
-            return hasBuilding(e.getV(), distance + 1);
-        }
-        return false;
     }
 
     public boolean addEdge(Vertex u, Vertex v) {

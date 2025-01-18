@@ -19,7 +19,7 @@ public class Player {
     private int settlements;
     private int cities;
     private int roads;
-    private int victoryPoints;
+    public int victoryPoints;
     private int knights;
     private boolean longestRoad;
     private boolean largestArmy;
@@ -27,6 +27,10 @@ public class Player {
     public Player(Color color) {
         this.color = color;
         resources = new int[Resource.RESOURCES.length];
+        resources[Resource.BRICK] = 1;
+        resources[Resource.LUMBER] = 1;
+        resources[Resource.WOOL] = 1;
+        resources[Resource.GRAIN] = 1;
         devCards = new HashMap<>();
         buildings = new ArrayList<>();
         graph = new HashMap<>();
