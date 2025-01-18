@@ -7,8 +7,15 @@ import java.util.*;
 
 public class Board {
 
-    private static final Point[] TILE_CORDS = {new Point(0, 3), new Point(0, 5), new Point(0, 7), new Point(2, 2), new Point(2, 4), new Point(2, 6), new Point(2, 8), new Point(4, 1), new Point(4, 3), new Point(4, 5), new Point(4, 7), new Point(4, 9), new Point(6, 2), new Point(6, 4), new Point(6, 6), new Point(6, 8), new Point(8, 3), new Point(8, 5), new Point(8, 7),};
+    private static final Point[] TILE_CORDS = {
+            new Point(0, 3), new Point(0, 5), new Point(0, 7),
+            new Point(2, 2), new Point(2, 4), new Point(2, 6), new Point(2, 8),
+            new Point(4, 1), new Point(4, 3), new Point(4, 5), new Point(4, 7), new Point(4, 9),
+            new Point(6, 2), new Point(6, 4), new Point(6, 6), new Point(6, 8),
+            new Point(8, 3), new Point(8, 5), new Point(8, 7),
+    };
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+    private static final int[][][] NEIGHBORS = {{{-1, 0}, {1, -1}, {1, 1}}, {{-1, -1}, {-1, 1}, {1, 0}}};
     public final Tile[][] tiles;
     public final Vertex[][] vertices;
     public final HashMap<Vertex, HashMap<Edge, Player>> graph;
@@ -21,24 +28,30 @@ public class Board {
         initialize();
     }
 
-    public boolean hasBuilding(Vertex v, int distance) {
+    public boolean hasBuildingsAround(Vertex v) {
         if (vertices[v.getRow()][v.getCol()].occupied) {
-            return false;
+            return true;
         }
-        if (distance < 2) {
-            for (Edge e : graph.get(v).keySet()) {
-                hasBuilding(e.getV(), distance + 1);
+        try {
+            int i = v.getRow() % 2;
+            for (int j = 0; j < 3; j++) {
+                if (vertices[v.getRow() + NEIGHBORS[i][j][0]][v.getCol() + NEIGHBORS[i][j][1]].occupied) {
+                    return true;
+                }
             }
+        } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
+
         }
-        return true;
+        return false;
     }
 
     public void placeBuilding(Building b) {
-        vertices[b.getRow()][b.getCol()] = b;
+        vertices[b.getRow()][b.getCol()] = new Building(b.owner, b.getRow(), b.getCol(), b.amtCollect);
     }
 
     public boolean hasEdge(Edge e) {
-        return graph.containsKey(e.getU()) && graph.get(e.getU()).containsKey(e) && graph.containsKey(e.getV()) && graph.get(e.getV()).containsKey(new Edge(e.getV(), e.getU()));
+        return graph.containsKey(e.getU()) && graph.get(e.getU()).containsKey(e) &&
+                graph.containsKey(e.getV()) && graph.get(e.getV()).containsKey(new Edge(e.getV(), e.getU()));
     }
 
     public boolean hasRoad(Edge e) {

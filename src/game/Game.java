@@ -1,12 +1,13 @@
 package game;
 
 import board.*;
+import constants.Resource;
 
 import static constants.Colors.COLORS;
 
 public class Game {
 
-    private final int N;
+    public final int N;
     public final Player[] players;
     public final Board board;
     public final Deck deck;
@@ -41,10 +42,11 @@ public class Game {
     public void distributeResources(int roll) {
         for (int i = 0; i < board.tiles.length; i++) {
             for (int j = 0; j < board.tiles[0].length; j++) {
-                if (board.tiles[i][j] != null && board.tiles[i][j].getNum() == roll && !board.tiles[i][j].isRobber()) {
+                if (board.tiles[i][j] != null && (roll == -1 || board.tiles[i][j].getNum() == roll) &&
+                        !board.tiles[i][j].isRobber() && !(board.tiles[i][j].getType() == Resource.DESERT)) {
                     for (Vertex v : board.tiles[i][j].getVertices()) {
-                        if (board.vertices[v.getRow()][v.getCol()].occupied) {
-                            Building b = (Building) v;
+                        if (board.vertices[v.getRow()][v.getCol()] != null &&
+                                board.vertices[v.getRow()][v.getCol()] instanceof Building b) {
                             b.giveResource(board.tiles[i][j].getType());
                         }
                     }
@@ -53,34 +55,38 @@ public class Game {
         }
     }
 
+    public void setPlayer() {
+        curPlayer = players[curIndex];
+    }
+
     public void nextTurn() {
         curIndex = (curIndex + 1) % N;
         curPlayer = players[1];
     }
 
-    public boolean placeRoad(Edge e, boolean secondRoad) {
+    public boolean placeRoad(Edge e) {
         if (board.hasRoad(e)) {
             return false;
         }
-        if (curPlayer.buyRoad(e, secondRoad)) {
+        if (curPlayer.buyRoad(e)) {
             board.placeRoad(e, curPlayer);
         }
         return false;
     }
 
-    public boolean initialSettlement(Building b) {
-        return false;
+    public boolean connected(Building b) {
+        Vertex v = new Vertex(b.getRow(), b.getCol());
+        return curPlayer.graph.get(v) != null && !curPlayer.graph.get(v).isEmpty();
     }
 
-    public boolean placeSecondRoad(Edge e) {
-        return false;
-    }
-
-    public boolean placeSettlement(Building b) {
+    public boolean placeSettlement(Building b, boolean setup) {
         if (board.vertices[b.getRow()][b.getCol()] == null) {
             return false;
         }
-        if (!board.hasBuilding(new Vertex(b.getRow(), b.getCol()), 0)) {
+        if (board.hasBuildingsAround(new Vertex(b.getRow(), b.getCol()))) {
+            return false;
+        }
+        if (!setup && !this.connected(b)) {
             return false;
         }
         if (curPlayer.buySettlement(b)) {

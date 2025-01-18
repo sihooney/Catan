@@ -21,21 +21,13 @@ public class Catan {
     private JLabel playerLabel;
     private JButton rollDiceButton;
     private boolean diceRolled;
+    private JButton startGameButton;
     private JButton endTurnButton;
     private JButton settlementButton;
-    private JButton cityButton;
     private JButton roadButton;
-    private JButton buyDevCardButton;
-    private JButton useDevCardButton;
-    private JButton genericTradeButton;
-    private JButton portTradeButton;
-    private JButton playerTradeButton;
 
     private Game game;
     private int setupIdx;
-    // TODO Initial Setup
-    // 0 1 2 3 4 5 6 7 setupIdx
-    // 0 1 2 3 3 2 1 0 playerIdx
     private final Integer[] rowChoices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
     private final Integer[] colChoices = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -109,6 +101,31 @@ public class Catan {
         playerLabel = new JLabel("");
         playerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         playerLabel.setFont(actionFont);
+        startGameButton = new JButton("Start Game");
+        startGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startGameButton.setFont(actionFont);
+        startGameButton.addActionListener(e -> initialMoves());
+        actionPanel.add(Box.createVerticalStrut(10));
+        actionPanel.add(startGameButton);
+        displayName();
+    }
+
+    private void initialMoves() {
+        while (setupIdx < game.N * 2) {
+            if (setupIdx < game.N) {
+                game.curIndex = setupIdx;
+            } else {
+                game.curIndex = 2 * game.N - setupIdx - 1;
+            }
+            game.setPlayer();
+            if (placeSettlement(true)) {
+                setupIdx++;
+            }
+        }
+        game.distributeResources(-1);
+        game.curIndex = 0;
+        game.setPlayer();
+        actionPanel.remove(startGameButton);
         rollDiceButton = new JButton("Roll Dice");
         rollDiceButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         rollDiceButton.setFont(actionFont);
@@ -120,7 +137,7 @@ public class Catan {
         settlementButton = new JButton("Build Settlement");
         settlementButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         settlementButton.setFont(actionFont);
-        settlementButton.addActionListener(e -> placeSettlement());
+        settlementButton.addActionListener(e -> placeSettlement(false));
         actionPanel.add(playerLabel);
         actionPanel.add(Box.createVerticalStrut(10));
         actionPanel.add(rollDiceButton);
@@ -129,41 +146,34 @@ public class Catan {
         actionPanel.add(Box.createVerticalStrut(10));
         actionPanel.add(settlementButton);
         actionPanel.add(Box.createVerticalStrut(10));
-        displayName();
+        actionPanel.revalidate();
+        actionPanel.repaint();
     }
 
-    private void placeSettlement() {
+    private boolean placeSettlement(boolean setup) {
         JComboBox<Integer> rowComboBox = new JComboBox<>(rowChoices);
         JComboBox<Integer> colComboBox = new JComboBox<>(colChoices);
         Object[] msg = {"Row Position:", rowComboBox, "Column position:", colComboBox};
-        int res = JOptionPane.showConfirmDialog(actionPanel, msg, "Place Settlement",
-                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        int res = JOptionPane.showConfirmDialog(actionPanel, msg,
+                String.format("Player %d Place Settlement", game.curIndex + 1), JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
         if (res == JOptionPane.OK_OPTION) {
             if (rowComboBox.getSelectedItem() != null && colComboBox.getSelectedItem() != null) {
                 if (game.placeSettlement(new Building(game.curPlayer, (int) rowComboBox.getSelectedItem(),
-                        (int) colComboBox.getSelectedItem(), Building.SETTLEMENT))) {
+                        (int) colComboBox.getSelectedItem(), Building.SETTLEMENT), setup)) {
                     JOptionPane.showMessageDialog(actionPanel, "Building built");
-                    boardPanel.repaint();
-                    infoPanel.update();
+                    refresh();
+                    return true;
                 } else {
                     JOptionPane.showMessageDialog(actionPanel, "Unable to build");
+                    return false;
                 }
             }
         } else {
             JOptionPane.showMessageDialog(actionPanel, "Operation canceled.");
+            return false;
         }
-    }
-
-    private void placeRoad() {
-
-    }
-
-    private void initialSettlement() {
-
-    }
-
-    private void initialRoad() {
-
+        return false;
     }
 
     private void displayName() {
@@ -177,12 +187,16 @@ public class Catan {
             int roll = game.diceRoll();
             JOptionPane.showMessageDialog(actionPanel, "Dice Roll: " + roll);
             game.distributeResources(roll);
-            infoPanel.update();
+            refresh();
             diceRolled = true;
         }
     }
 
     private void endTurn() {
+        if (!diceRolled) {
+            JOptionPane.showMessageDialog(actionPanel, "You must roll the dice");
+            return;
+        }
         int i = game.checkWin();
         if (i != -1) {
             JOptionPane.showMessageDialog(windowFrame, String.format("Player %d %s Wins", i + 1, NAMES[i]));
@@ -194,6 +208,12 @@ public class Catan {
         game.nextTurn();
         diceRolled = false;
         displayName();
+    }
+
+    private void refresh() {
+        boardPanel.repaint();
+        infoPanel.revalidate();
+        infoPanel.repaint();
     }
 
     public static void main(String[] args) {

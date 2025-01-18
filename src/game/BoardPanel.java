@@ -19,7 +19,7 @@ public class BoardPanel extends JPanel {
     public BoardPanel(Board board) {
         this.board = board;
         setPreferredSize(new Dimension(1200, 700));
-        setBackground(Color.BLUE);
+        setBackground(new Color(146, 206, 226));
         getTileCenters();
     }
 
@@ -55,7 +55,7 @@ public class BoardPanel extends JPanel {
         }
         g.setColor(Resource.COLORS[type]);
         g.fillPolygon(xPoints, yPoints, 6);
-        g.setColor(Color.BLUE);
+        g.setColor(Color.BLACK);
         g.drawPolygon(xPoints, yPoints, 6);
     }
 
@@ -65,8 +65,11 @@ public class BoardPanel extends JPanel {
         int x = p.x;
         int y = p.y;
         int size = 15;
-        g.fillPolygon(new int[]{x - size, x, x + size, x + size, x - size},
-                new int[]{y, y - size, y, y + size, y + size}, 5);
+        int[] xPoints = {x - size, x, x + size, x + size, x - size};
+        int[] yPoints = {y, y - size, y, y + size, y + size};
+        g.fillPolygon(xPoints, yPoints, 5);
+        g.setColor(Color.BLACK);
+        g.drawPolygon(xPoints, yPoints, 5);
     }
 
     private void drawCity(Graphics g, int r, int c, Color color) {
@@ -74,7 +77,7 @@ public class BoardPanel extends JPanel {
     }
 
     private void drawNum(Graphics g, int r, int c) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLUE);
         g.setFont(new Font(null, Font.PLAIN, 20));
         if (r == board.robberLoc.getRow() && c == board.robberLoc.getCol()) {
             g.drawString("R", centers[r][c].x, centers[r][c].y);
@@ -93,7 +96,6 @@ public class BoardPanel extends JPanel {
                 }
                 if (board.vertices[i][j] != null && board.vertices[i][j].occupied) {
                     Building b = (Building) board.vertices[i][j];
-                    System.out.println(i + " " + j);
                     if (b.amtCollect == 1) {
                         drawSettlement(g, i, j, b.owner.color);
                     } else {

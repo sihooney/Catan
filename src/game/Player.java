@@ -14,7 +14,7 @@ public class Player {
     public final int[] resources;
     private final HashMap<DevCard, Integer> devCards;
     private final ArrayList<Building> buildings;
-    private final HashMap<Vertex, HashSet<Edge>> graph;
+    public final HashMap<Vertex, HashSet<Edge>> graph;
     public final boolean[] ports;
     private int settlements;
     private int cities;
@@ -27,10 +27,10 @@ public class Player {
     public Player(Color color) {
         this.color = color;
         resources = new int[Resource.RESOURCES.length];
-        resources[Resource.BRICK] = 1;
-        resources[Resource.LUMBER] = 1;
-        resources[Resource.WOOL] = 1;
-        resources[Resource.GRAIN] = 1;
+        resources[Resource.BRICK] = 4;
+        resources[Resource.LUMBER] = 4;
+        resources[Resource.WOOL] = 2;
+        resources[Resource.GRAIN] = 2;
         devCards = new HashMap<>();
         buildings = new ArrayList<>();
         graph = new HashMap<>();
@@ -81,7 +81,7 @@ public class Player {
         return items;
     }
 
-    public boolean buyRoad(Edge e, boolean secondRoad) {
+    public boolean buyRoad(Edge e) {
         if (canAfford()[Items.ROAD]) {
             if (roads + 1 > 15) {
                 return false;
@@ -95,11 +95,7 @@ public class Player {
             if (!graph.containsKey(e.getV())) {
                 graph.put(e.getV(), new HashSet<>());
             }
-            if (hasBuilding(e.getU()) || hasBuilding(e.getV())) {
-                graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
-                graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
-                return true;
-            } else if (!secondRoad && (hasRoad(e.getU()) || hasRoad(e.getV()))) {
+            if (hasBuilding(e.getU()) || hasBuilding(e.getV()) || hasRoad(e.getU()) || hasRoad(e.getV())) {
                 graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
                 graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
                 return true;
