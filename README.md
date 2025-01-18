@@ -1,4 +1,4 @@
-Notes abouut coordinate system: Tiles are specified by their top-most vertex coordinate
+Notes about coordinate system: Tiles are specified by their top-most vertex coordinate
 
 Classes to be commented: // TODO
 
