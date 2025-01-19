@@ -1,5 +1,5 @@
-Driver class:
-game/Catan
+Driver class:  
+game/Catan  
 
 Main classes to be commented:
 game/Catan
