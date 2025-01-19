@@ -1,5 +1,7 @@
 package game;
 
+import constants.Items;
+
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -24,31 +26,29 @@ class CustomCellRenderer extends DefaultTableCellRenderer {
 
 public class InfoPanel extends JPanel {
 
-    private final Player[] players;
-    private DefaultTableModel model;
-    private JTable table;
-    private JScrollPane scrollPane;
-
     public InfoPanel(Player[] players) {
-        this.players = players;
         setPreferredSize(new Dimension(1200, 300));
         setLayout(new FlowLayout());
         setBackground(Color.LIGHT_GRAY);
-        model = new DefaultTableModel();
+        JTextArea buildingCosts = new JTextArea(Items.BUILDING_COSTS);
+        buildingCosts.setEditable(false);
+        buildingCosts.setFont(new Font(null, Font.PLAIN, 14));
+        DefaultTableModel model = new DefaultTableModel();
         model.addColumn("Player");
         model.addColumn("Information");
         for (int i = 0; i < players.length; i++) {
             Object[] obj = new Object[2];
-            obj[0] = NAMES[i];
+            obj[0] = String.format("Player %d: %s", i + 1, NAMES[i]);
             obj[1] = players[i];
             model.addRow(obj);
         }
-        table = new JTable(model);
-        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-        table.getColumnModel().getColumn(1).setPreferredWidth(900);
+        JTable table = new JTable(model);
+        table.getColumnModel().getColumn(0).setPreferredWidth(150);
+        table.getColumnModel().getColumn(1).setPreferredWidth(600);
         table.getColumnModel().getColumn(1).setCellRenderer(new CustomCellRenderer());
-        scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(1000, 290));
-        this.add(scrollPane);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setPreferredSize(new Dimension(750, 290));
+        add(buildingCosts);
+        add(scrollPane);
     }
 }

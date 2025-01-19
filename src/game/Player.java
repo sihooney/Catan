@@ -8,7 +8,7 @@ import constants.Resource;
 import java.awt.*;
 import java.util.*;
 
-public class Player {
+public class Player implements Comparable<Player> {
 
     public final Color color;
     public final int[] resources;
@@ -31,6 +31,7 @@ public class Player {
         resources[Resource.LUMBER] = 4;
         resources[Resource.WOOL] = 2;
         resources[Resource.GRAIN] = 2;
+        resources[Resource.ORE] = 0;
         devCards = new HashMap<>();
         buildings = new ArrayList<>();
         graph = new HashMap<>();
@@ -95,26 +96,11 @@ public class Player {
             if (!graph.containsKey(e.getV())) {
                 graph.put(e.getV(), new HashSet<>());
             }
-            if (hasBuilding(e.getU()) || hasBuilding(e.getV()) || hasRoad(e.getU()) || hasRoad(e.getV())) {
-                graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
-                graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
-                return true;
-            }
+            graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
+            graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
+            return true;
         }
         return false;
-    }
-
-    private boolean hasBuilding(Vertex v) {
-        for (Building b : buildings) {
-            if (b.getPoint() == v.getPoint()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean hasRoad(Vertex v) {
-        return graph.containsKey(v) && !graph.get(v).isEmpty();
     }
 
     public boolean buySettlement(Building b) {
@@ -166,5 +152,29 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public void discardHalf() {
+        int sum = 0;
+        for (int n : resources) {
+            sum += n;
+        }
+        if (sum <= 7) {
+            return;
+        }
+        int remove = sum / 2;
+        while (remove > 0) {
+            int idx = (int) (Math.random() * resources.length);
+            if (resources[idx] > 0) {
+                int decrease = 1 + (int) (Math.random() * Math.min(remove, resources[idx]));
+                resources[idx] -= decrease;
+                remove -= decrease;
+            }
+        }
+    }
+
+    @Override
+    public int compareTo(Player p) {
+        return Integer.compare(p.victoryPoints, victoryPoints);
     }
 }

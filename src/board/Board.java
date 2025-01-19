@@ -16,6 +16,9 @@ public class Board {
     };
     private static final Integer[] TOKENS = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
     private static final int[][][] NEIGHBORS = {{{-1, 0}, {1, -1}, {1, 1}}, {{-1, -1}, {-1, 1}, {1, 0}}};
+    public static final Integer[] ROW_INDEXES = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+    public static final Integer[] COL_INDEXES = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
     public final Tile[][] tiles;
     public final Vertex[][] vertices;
     public final HashMap<Vertex, HashMap<Edge, Player>> graph;
@@ -26,6 +29,16 @@ public class Board {
         vertices = new Vertex[12][11];
         graph = new HashMap<>();
         initialize();
+    }
+
+    public boolean moveRobber(Point p) {
+        if (p.equals(robberLoc)) {
+            return false;
+        } if (tiles[p.getRow()][p.getCol()] == null) {
+            return false;
+        }
+        robberLoc = p;
+        return true;
     }
 
     public boolean hasBuildingsAround(Vertex v) {
@@ -46,7 +59,12 @@ public class Board {
     }
 
     public void placeBuilding(Building b) {
-        vertices[b.getRow()][b.getCol()] = new Building(b.owner, b.getRow(), b.getCol(), b.amtCollect);
+        vertices[b.getRow()][b.getCol()] = b;
+    }
+
+    public void placeRoad(Edge e, Player p) {
+        graph.get(e.getU()).put(e, p);
+        graph.get(e.getV()).put(new Edge(e.getV(), e.getU()), p);
     }
 
     public boolean hasEdge(Edge e) {
@@ -56,18 +74,10 @@ public class Board {
 
     public boolean hasRoad(Edge e) {
         Edge reverse = new Edge(e.getV(), e.getU());
-        if (hasEdge(e) && hasEdge(reverse)) {
-            return graph.get(e.getU()).get(e) == null && graph.get(e.getV()).get(reverse) == null;
-        }
-        return false;
+        return graph.get(e.getU()).get(e) != null || graph.get(e.getV()).get(reverse) != null;
     }
 
-    public void placeRoad(Edge e, Player p) {
-        graph.get(e.getU()).put(e, p);
-        graph.get(e.getV()).put(new Edge(e.getV(), e.getU()), p);
-    }
-
-    public boolean addEdge(Vertex u, Vertex v) {
+    public void addEdge(Vertex u, Vertex v) {
         if (!graph.containsKey(u)) {
             graph.put(u, new HashMap<>());
         }
@@ -75,11 +85,10 @@ public class Board {
             graph.put(v, new HashMap<>());
         }
         if (graph.get(u).containsKey(new Edge(u, v)) || graph.get(v).containsKey(new Edge(v, u))) {
-            return false;
+            return;
         }
         graph.get(u).put(new Edge(u, v), null);
         graph.get(v).put(new Edge(v, u), null);
-        return true;
     }
 
     private void initialize() {

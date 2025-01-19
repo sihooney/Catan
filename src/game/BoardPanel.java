@@ -4,11 +4,10 @@ import board.*;
 import constants.Resource;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.Point;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Font;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BoardPanel extends JPanel {
 
@@ -59,6 +58,17 @@ public class BoardPanel extends JPanel {
         g.drawPolygon(xPoints, yPoints, 6);
     }
 
+    private void drawRoad(Graphics2D g2d, int r1, int c1, int r2, int c2, Color color) {
+        Point p1 = calculateVertex(r1, c1);
+        Point p2 = calculateVertex(r2, c2);
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(10));
+        g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+        g2d.setColor(color);
+        g2d.setStroke(new BasicStroke(7));
+        g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+    }
+
     private void drawSettlement(Graphics g, int r, int c, Color color) {
         g.setColor(color);
         Point p = calculateVertex(r, c);
@@ -74,6 +84,15 @@ public class BoardPanel extends JPanel {
 
     private void drawCity(Graphics g, int r, int c, Color color) {
         g.setColor(color);
+        Point p = calculateVertex(r, c);
+        int x = p.x;
+        int y = p.y;
+        int size = 15;
+        int[] xPoints = {x - 2 * size, x - size, x, x + size, x + size, x - 2 * size};
+        int[] yPoints = {y, y - size, y, y, y + size, y + size};
+        g.fillPolygon(xPoints, yPoints, 6);
+        g.setColor(Color.BLACK);
+        g.drawPolygon(xPoints, yPoints, 6);
     }
 
     private void drawNum(Graphics g, int r, int c) {
@@ -101,6 +120,17 @@ public class BoardPanel extends JPanel {
                     } else {
                         drawCity(g, i, j, b.owner.color);
                     }
+                }
+            }
+        }
+        Graphics2D g2d = (Graphics2D) g;
+        for (HashMap<Edge, Player> map : board.graph.values()) {
+            for (Map.Entry<Edge, Player> entry : map.entrySet()) {
+                if (entry.getValue() != null) {
+                    Vertex u = entry.getKey().getU();
+                    Vertex v = entry.getKey().getV();
+                    Color c = entry.getValue().color;
+                    drawRoad(g2d, u.getRow(), u.getCol(), v.getRow(), v.getCol(), c);
                 }
             }
         }
