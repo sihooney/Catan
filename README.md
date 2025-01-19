@@ -1,6 +1,5 @@
 Driver class:  
-game/Catan  
-
+game/Catan
 
 Main classes to be commented:  
 game/Catan  
@@ -8,9 +7,9 @@ game/Game
 game/Player  
 board/Board  
 
-
-All features are implemented exactly as according to catan_rules_almanac.pdf unless otherwise specified  
-Please read catan_rules_almanac.pdf for complete list of niche rules and procedures implemented  
+Game rules and almanac: https://www.catan.com/sites/default/files/2021-06/catan_base_rules_2020_200707.pdf  
+All features are implemented exactly as according to the almanac unless otherwise specified  
+Please read the almanac for complete list of niche rules and procedures implemented  
 Notes about coordinate system: Tiles are specified by their top-most vertex coordinate when moving the robber  
 Possible bugs because testing is difficult (probability based game states and time-consuming gameplay)  
 As of right now, four-player is untested but no bugs or issues are forecasted  
