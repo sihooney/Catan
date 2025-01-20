@@ -3,6 +3,9 @@ package constants;
 import java.awt.*;
 import java.util.HashMap;
 
+/**
+ * Contains constants for the player colors, corresponding to player 1, 2, 3, 4
+ */
 public class Colors {
 
     public static final Color[] COLORS = {Color.RED, Color.BLUE, Color.ORANGE, Color.WHITE};
@@ -13,4 +16,5 @@ public class Colors {
         put(Color.ORANGE, "ORANGE");
         put(Color.WHITE, "WHITE");
     }};
+
 }

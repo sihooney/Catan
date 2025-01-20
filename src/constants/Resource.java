@@ -2,6 +2,9 @@ package constants;
 
 import java.awt.*;
 
+/**
+ * Contains constants related to game resources
+ */
 public class Resource {
 
     public static final int BRICK = 0;
@@ -19,4 +22,5 @@ public class Resource {
             new Color(105, 105, 105),
             new Color(237, 201, 175)
     };
+
 }

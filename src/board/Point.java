@@ -2,16 +2,28 @@ package board;
 
 import java.util.Objects;
 
+/**
+ * Base class that models an ordered pair of (row, column) coordinates
+ */
 public class Point {
 
     protected int row;
     protected int col;
 
+    /**
+     * Create a new Point with row and column initialized to -1
+     */
     public Point() {
         row = -1;
         col = -1;
     }
 
+    /**
+     * Create a new Point
+     *
+     * @param row Row coordinate
+     * @param col Column coordinate
+     */
     public Point(int row, int col) {
         this.row = row;
         this.col = col;

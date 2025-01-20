@@ -2,11 +2,20 @@ package board;
 
 import java.util.Objects;
 
+/**
+ * Models a directed edge between two vertices
+ */
 public class Edge {
 
     protected final Vertex u;
     protected final Vertex v;
 
+    /**
+     * Create a new directed edge
+     *
+     * @param u A vertex
+     * @param v A vertex
+     */
     public Edge(Vertex u, Vertex v) {
         this.u = u;
         this.v = v;
