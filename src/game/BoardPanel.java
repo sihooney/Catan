@@ -196,8 +196,8 @@ public class BoardPanel extends JPanel {
         for (HashMap<Edge, Player> map : board.getGraph().values()) {
             for (Map.Entry<Edge, Player> entry : map.entrySet()) {
                 if (entry.getValue() != null) {
-                    Vertex u = entry.getKey().getU();
-                    Vertex v = entry.getKey().getV();
+                    Vertex u = entry.getKey().u();
+                    Vertex v = entry.getKey().v();
                     Color c = entry.getValue().getColor();
                     drawRoad(g2d, u.getRow(), u.getCol(), v.getRow(), v.getCol(), c); // Draw road
                 }

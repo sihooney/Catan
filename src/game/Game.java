@@ -142,8 +142,8 @@ public class Game {
      */
     private Building[] buildingsOnRoad(Edge e) {
         Building[] buildings = new Building[2];
-        Vertex u = e.getU();
-        Vertex v = e.getV();
+        Vertex u = e.u();
+        Vertex v = e.v();
         if (board.getVertices()[u.getRow()][u.getCol()] instanceof Building b) {
             buildings[0] = b;
         }
@@ -161,8 +161,8 @@ public class Game {
      * @return {@code true} if connected, {@code false} otherwise
      */
     private boolean isRoadConnected(Edge e, Player p) {
-        Vertex u = e.getU();
-        Vertex v = e.getV();
+        Vertex u = e.u();
+        Vertex v = e.v();
         // Check if road is connected to building
         if (board.getVertices()[u.getRow()][u.getCol()] instanceof Building b) {
             if (b.getOwner().getColor() == p.getColor()) {

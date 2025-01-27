@@ -22,7 +22,6 @@ public class Catan {
 
     private final JFrame windowFrame; // Outermost JFrame window
     private JPanel menuPanel; // Panel for starting menu
-    private JPanel gamePanel; // Container panel for gameplay
     private JPanel actionPanel; // Panel containing components for player actions
     private BoardPanel boardPanel; // BoardPanel object to display board state
     private InfoPanel infoPanel; // InfoPanel object to display player information
@@ -122,7 +121,8 @@ public class Catan {
         setupIdx = 0; // Setup index set to 0
         menuPanel.removeAll();
         windowFrame.remove(menuPanel); // Remove menu
-        gamePanel = new JPanel(); // Create outer container panel
+        // Container panel for gameplay
+        JPanel gamePanel = new JPanel(); // Create outer container panel
         gamePanel.setPreferredSize(new Dimension(1800, 1000));
         gamePanel.setLayout(new BorderLayout());
         JPanel rightPanel = new JPanel(); // Right container panel to contain board panel and information panel

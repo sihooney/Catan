@@ -89,15 +89,15 @@ public class Player implements Comparable<Player> {
             // Update player resources
             resources[Resource.BRICK]--;
             resources[Resource.LUMBER]--;
-            if (!graph.containsKey(e.getU())) {
-                graph.put(e.getU(), new HashSet<>());
+            if (!graph.containsKey(e.u())) {
+                graph.put(e.u(), new HashSet<>());
             }
-            if (!graph.containsKey(e.getV())) {
-                graph.put(e.getV(), new HashSet<>());
+            if (!graph.containsKey(e.v())) {
+                graph.put(e.v(), new HashSet<>());
             }
             // Add road to the player graph
-            graph.get(e.getU()).add(new Edge(e.getU(), e.getV()));
-            graph.get(e.getV()).add(new Edge(e.getV(), e.getU()));
+            graph.get(e.u()).add(new Edge(e.u(), e.v()));
+            graph.get(e.v()).add(new Edge(e.v(), e.u()));
             return true;
         }
         return false;

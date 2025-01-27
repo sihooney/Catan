@@ -100,8 +100,8 @@ public class Board {
      * @param p Owner of the road
      */
     public void placeRoad(Edge e, Player p) {
-        graph.get(e.getU()).put(e, p);
-        graph.get(e.getV()).put(new Edge(e.getV(), e.getU()), p);
+        graph.get(e.u()).put(e, p);
+        graph.get(e.v()).put(new Edge(e.v(), e.u()), p);
     }
 
     /**
@@ -111,8 +111,8 @@ public class Board {
      * @return {@code true} if board contains edge, {@code false} otherwise
      */
     public boolean hasEdge(Edge e) {
-        return graph.containsKey(e.getU()) && graph.get(e.getU()).containsKey(e) &&
-                graph.containsKey(e.getV()) && graph.get(e.getV()).containsKey(new Edge(e.getV(), e.getU()));
+        return graph.containsKey(e.u()) && graph.get(e.u()).containsKey(e) &&
+                graph.containsKey(e.v()) && graph.get(e.v()).containsKey(new Edge(e.v(), e.u()));
     }
 
     /**
@@ -122,8 +122,8 @@ public class Board {
      * @return {@code true} if board contains road on the edge, {@code false} otherwise
      */
     public boolean hasRoad(Edge e) {
-        Edge reverse = new Edge(e.getV(), e.getU());
-        return graph.get(e.getU()).get(e) != null || graph.get(e.getV()).get(reverse) != null;
+        Edge reverse = new Edge(e.v(), e.u());
+        return graph.get(e.u()).get(e) != null || graph.get(e.v()).get(reverse) != null;
     }
 
     /**
