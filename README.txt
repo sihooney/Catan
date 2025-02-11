@@ -1,30 +1,3 @@
-Driver class:
-game/Catan
-
-Classes with comments (comments may be brief and sparse):
-board/Board
-board/Building
-board/Edge
-board/Point
-board/Tile
-board/Vertex
-constants/Colors
-constants/Items
-constants/Resource
-
-Classes with more comments:
-game/BoardPanel
-game/Catan
-game/Game
-game/Player
-game/InfoPanel
-
-Comments on game:
-All data is fully encapsulated
-Testing is extremely time-consuming, limited my ability to complete all features, no known bugs but there could be
-hidden bugs on very niche edge cases
-Over 1600 lines of code (excluding comments) but still cannot implement all features unfortunately
-
 Description of game:
 Game rules and almanac: https://www.catan.com/sites/default/files/2021-06/catan_base_rules_2020_200707.pdf
 All features are implemented exactly as according to the almanac unless otherwise specified
@@ -36,6 +9,7 @@ Each vertex of the board is represented by a row and column coordinate
 When moving the robber, the tile the robber moves to is specified by their top-most vertex coordinate
 
 Game settings:
+A new board layout is randomly generated on every play
 Change number of victory points to win: change the final variable WIN in game/Game
 Change starting resources: modify the constructor of game/Player to change initial values in resources array
 Do not go below the default starting resources (4 brick, 2 wool, 4 lumber, 2 grain), otherwise setup phase will break
@@ -80,10 +54,6 @@ Description of fully implemented features:
 8. Winning the game and output final score and rank
     - The game ends when a player reaches 10 victory points (adjustable based on the code)
     - Game outputs each player's ending victory points, sorted descending
-
-Important rules implemented:
-1. A new board layout is randomly generated on every play
-2. A player must roll first on their turn; this roll is not optional and must occur before other actions
 
 Features to be implemented (in order of priority, some may be half implemented but don't worry about them):
 1. Implement development cards (knight, victory point, year of plenty, monopoly, road building)
